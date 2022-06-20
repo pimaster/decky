@@ -5,7 +5,7 @@ html, body{
 body {
 	font-family: Verdana, sans;
 	overflow-y: scroll;
-	background: url('img/bg_low.jpg') no-repeat fixed center center;
+	background: url('img/bg_low.jpg') no-repeat;
 }
 body.custom {
 	background-image: var(--custom-background-url);
