@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Magic Deck Viewer</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="API.js"></script>
+		<script src="Candy.js"></script>
+		<script src="Deck.js"></script>
+		<script src="ENC.js"></script>
+		<script src="Input.js"></script>
+		<script src="R.js"></script>
+		<script src="State.js"></script>
+		<script src="UI.js"></script>
+		<script src="index.js"></script>
+		
+		<link rel="stylesheet" href="index.css" />
+		<meta charset="UTF-8"> 
+	</head>
+	<body>
+		<div id="jstest">
+			<div>
+				<script>jstest.className = "js";</script>
+				<img src="img/nojs.jpg" title="Seinfeld 'No soup for you' but soup has been replaced by js logo" />
+				<p>I know. I made a web app that depends on javascript.</p>
+				<p>If you can enable it you'll get a much better experience.</p>
+			</div>
+		</div>
+		<div id="main">
+			<div class="queryInput">
+				<form autocomplete="off" onsubmit="return false;">
+					<input id="query" type="text"></input>
+				</form>
+				<div id="target" class="list"></div>
+			</div>
+			
+			<div id="deck" class="default"></div>
+			
+			<div class="formatted">
+				<div class="keys">
+					<div id="view" class="key">
+						<a onclick="return Candy.inputToggle(event);"><span>View</span></a>
+					</div>
+					<div id="input" class="key">
+						<a onclick="return Candy.inputToggle(event);"><span>Input</span></a>
+					</div>
+					<div id="displayOptions" class="key">
+						<a onclick="return Candy.inputToggle(event);"><span>Options</span></a>
+					</div>
+				</div>
+				<div class="options">
+					<div id="viewOpen" class="option">
+						<div class="value">
+							<textarea id="TextView" cols="25" rows="15"></textarea>
+						</div>
+					</div>
+					<div id="inputOpen" class="option">
+						<div class="value">
+							<textarea id="TextInput" cols="25" rows="15"></textarea>
+							<a onclick="State.loadText(); return false;">Load</a>
+						</div>
+					</div>
+					<div id="displayOptionsOpen" class="option">
+						<div class="value">
+							<label>
+								<input id="displayEdit" type="checkbox" name="displayEdit" onclick="return UI.toggleEditable();" />Editable
+							</label>
+							<fieldset>
+								<legend>Custom Background</legend>
+								<input title="url" id="backgroundURL" type="text" name="backgroundURL" oninput="return UI.backgroundChange();"/>
+								<input title="Scale" type="range" min="50" max="300" value="100" class="slider" id="backgroundScale" oninput="return UI.backgroundChange();"/>
+								<input title="Offset X" type="range" min="-600" max="200" value="0" class="slider" id="backgroundOffsetX" oninput="return UI.backgroundChange();"/>
+								<input title="Offset Y" type="range" min="-600" max="200" value="0" class="slider" id="backgroundOffsetY" oninput="return UI.backgroundChange();"/>
+							</fieldset>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="apiInfo">
+			<span id="apiRemaining"></span>
+			<div id="apiStatus"></div>
+		</div>
+	</body>
+</html>
