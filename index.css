@@ -257,13 +257,13 @@ a:hover{
 	overflow: hidden;
 }
 .mini .card .top {
-	height: 20px;
+	height: 25px;
 }
 .mini .card .bot {
 	height: 98px
 }
 .mini .card .bot img {
-	top: -125px;
+	top: -120px;
 	position: relative;
 }
 

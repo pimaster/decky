@@ -100,6 +100,7 @@ UI = {
 	backgroundChange: function(){
 		UI.backgroundUpdate();
 		State.save();
+		return true;
 	},
 	backgroundUpdate: function(){
 		$("body").removeClass("custom");
@@ -110,6 +111,11 @@ UI = {
 			document.documentElement.style.setProperty("--custom-background-y-offset",`${backgroundOffsetY.value}px`);
 			$("body").addClass("custom")
 		}
+	},
+	viewChange: function(){
+		$("#deck").removeClass();
+		$("#deck").addClass(viewSelector.value);
+		return true;
 	},
 	reset: function(from){
 		$('#query').removeClass('working');
