@@ -19,12 +19,23 @@
 		<meta property="og:description" content="View and share Magic the Gathering decks without requiring an account">
 		<meta property="og:image" content="img/deckyLinkPreview.jpg">
 		<meta property="twitter:card" content="img/deckyLinkPreview.jpg">
+		<meta name="description" content="Decky is a Magic the Gathering deck creator/viewer that doesn't require an account." />
 	</head>
 	<body>
 		<div id="jstest">
 			<div>
 				<script>jstest.className = "js";</script>
-				<img class="preview" src="img/deckyLinkPreview.jpg" title="Link Preview Image" />
+				<div class="preview">
+					<img src="img/deckyLinkPreview.jpg" title="Link Preview Image" />
+					<h1>What is Decky?</h1>
+					<p>Decky is a way to visualise and share Magic the Gathering decks. Not everyone wants to create an account on a site to share a creation</p>
+					<h1>How does Decky work?</h1>
+					<p>It encodes the individual cards into the hash portion of the URL. This can then be shared via any method you wish.</p>
+					<h1>Does Decky have limitations</h1>
+					<p>Yup. URLs can only be so long. If you add too many cards then problems may arise. For drafting and constructed play, this should be fine. It should even work for commander decks. A small cube may be troublesome.</p>
+					<p>Decky is also unable to produce a preview image when linked to. Because all of the cards are calculated when you view the link, nothing can be generated before hand.</p>
+					<p>There is also the posibility that so many requests are made at the same time that using it might be frustrating. Cross that bridge when we get there.</p>
+				</div>
 				<img src="img/nojs.jpg" title="Seinfeld 'No soup for you' but soup has been replaced by js logo" />
 				<p>I know. I made a web app that depends on javascript.</p>
 				<p>If you can enable it you'll get a much better experience.</p>
