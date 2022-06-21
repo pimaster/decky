@@ -42,16 +42,24 @@ API = {
 			});
 		} else {
 			if(API.cacheNames[name]) return fun(API.getCardBySet(name,set));
-			var r = "https://api.magicthegathering.io/v1/cards?contains=imageUrl&pageSize=100&name=\"" + name + "\"";
+			if(!name.includes("'")) // We can only do exact searches on names WITHOUT a single ', API bug/quirk
+				name = `"${name}"`;
+			var r = `https://api.magicthegathering.io/v1/cards?contains=imageUrl&pageSize=100&name=${name}`;
 			if(API.basics.includes(name)){
 				r += "&set=" + API.basicLandSets.join("|");
 			}
 			return R.getJSON(r, function(data){
-				if(data.cards.length > 0){
+				if(data.cards && data.cards.length > 0){
 					API.cacheNames[name] = [];
 					for(card of data.cards)
-						if(card.imageUrl)
-							API.cacheNames[name].push(card)
+						if(card.imageUrl){ // A card we can show
+							if(name.includes("'")){ // Special quote check
+								if(name == card.name)
+									API.cacheNames[name].push(card)
+							}else{
+								API.cacheNames[name].push(card)
+							}
+						}
 				}
 				return fun(API.cacheNames[name]);
 			});
