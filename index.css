@@ -291,3 +291,9 @@ a:hover{
 	height: fit-content;
 	box-shadow: -5px 5px 5px var(--color-shadow);
 }
+#jstest img {
+	display: block;
+}
+#jstest .preview {
+	display: none;
+}
