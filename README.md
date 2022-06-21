@@ -1,7 +1,7 @@
 # decky
 Magic the Gathering Deck Viewer
 
-Hosted via github at (https://pimaster.github.io/decky/)
+Hosted via github at https://pimaster.github.io/decky/
 
 I got tired of seeing deck visualisers requiring a sign in. So I went on a quest to make my own.
 
