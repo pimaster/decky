@@ -245,7 +245,7 @@ a:hover{
 /* DEBUGGY STUFF */
 
 #apiInfo {
-	position: absolute;
+	position: fixed;
 	bottom:  0px;
 	right: 0px;
 	margin: 10px;
