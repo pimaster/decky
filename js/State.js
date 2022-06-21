@@ -56,7 +56,7 @@ State = {
 				y: backgroundOffsetY.value
 			}
 		}
-		window.location.hash = JSON.stringify(state);
+		window.location.hash = encodeURI(JSON.stringify(state));
 	},
 	loadText: function(){
 		var batchy = false;
