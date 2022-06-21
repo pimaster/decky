@@ -46,7 +46,7 @@ a:hover{
 }
 
 #deck {
-	margin: 10px 40px 10px 10px;
+	margin: 10px 40px 10px 40px;
 }
 
 #deck a + img {
@@ -65,6 +65,14 @@ a:hover{
 	display: inline-block;
 	position: relative;
 	margin: 2px 2px 0 0;
+	transition: transform .2s ease-in-out;
+}
+#deck .card:hover{
+	transform: scale(1.4);
+	z-index: 4;
+}
+.cardInner {
+	position: relative;
 }
 .card .delete {
 	position: absolute;
@@ -140,6 +148,7 @@ a:hover{
 	position: absolute;
 	right: 0;
 	top: 40px;
+	z-index: 20;
 }
 .formatted a {
 	display: inline-block;
@@ -228,7 +237,8 @@ a:hover{
 .list .selectable {
 	padding: 0 15px;
 	display: block;
-	border: 2px solid var(--color-light);
+	border: solid var(--color-light);
+	border-width: 2px 0 2px 0;
 	border-collapse: collapse;
 
 	white-space: nowrap;
@@ -265,6 +275,14 @@ a:hover{
 .mini .card .bot img {
 	top: -120px;
 	position: relative;
+}
+
+/* Stacked View */
+.stacked .card {
+	height: 30px;
+}
+.stacked .bot {
+	display: none;
 }
 
 /* NO JS */

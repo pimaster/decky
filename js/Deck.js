@@ -31,15 +31,17 @@ Deck = {
 				<div id="card_${i}" class="card" draggable="true" ondragstart="UI.dragStart(event, ${i})" ondrag="UI.drag(event)"
 				ondrop="UI.drop(event,${i})" ondragenter="UI.dragEnter(event)" ondragleave="UI.dragLeave(event)" 
 				ondragover="UI.dragOver(event)" ondragend="UI.dragEnd(event)">
-					<a class="delete" title="Delete" onclick="UI.removePos(${i}); return false;"><span>X</span></a>
-					<a class="set" title="Change set" onclick="Deck.showSets(${i}); return false;"><span>@</span></a>
-					<div class="sets list"></div>
-					<span class="name">${item.name}</span>
-					<div class="container top">
-						<img src="${item.imageUrl}" />
-					</div>
-					<div class="container bot">
-						<img src="${item.imageUrl}" />
+					<div class="cardInner">
+						<a class="delete" title="Delete" onclick="UI.removePos(${i}); return false;"><span>X</span></a>
+						<a class="set" title="Change set" onclick="Deck.showSets(${i}); return false;"><span>@</span></a>
+						<div class="sets list"></div>
+						<span class="name">${item.name}</span>
+						<div class="container top">
+							<img src="${item.imageUrl}" />
+						</div>
+						<div class="container bot">
+							<img src="${item.imageUrl}" />
+						</div>
 					</div>
 				</div>`);
 			var name = `${item.name} (${item.set})`;

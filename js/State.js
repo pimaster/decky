@@ -37,6 +37,10 @@ State = {
 				backgroundOffsetY.value = state.cbg.y;
 				UI.backgroundUpdate();
 			}
+			if(state.v){
+				viewSelector.value = state.v;
+				viewSelector.oninput();
+			}
 		}
 	},
 	save: function(){
@@ -46,7 +50,8 @@ State = {
 			// c Was version 1 that was an array of ids
 			// c: ids
 			// c2 is version 2 that is 4 char that is base 66
-			c2: ids.join("")
+			c2: ids.join(""),
+			v: viewSelector.value
 		};
 		if(backgroundURL.value.length > 0){
 			state.cbg = {

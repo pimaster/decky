@@ -115,6 +115,7 @@ UI = {
 	viewChange: function(){
 		$("#deck").removeClass();
 		$("#deck").addClass(viewSelector.value);
+		State.save();
 		return true;
 	},
 	reset: function(from){
