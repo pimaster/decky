@@ -39,7 +39,7 @@ Input = {
 					|| val.multiverseid > dedup[val.name].multiverseid) // This one is newer...
 					dedup[val.name] = val;
 			}
-			sorted = Object.values(dedup).sort((a,b) => a.name > b.name);
+			sorted = Object.values(dedup).sort((a,b) => a.name.localeCompare(b.name));
 			for(val of sorted){
 				if(Input.options.length <= 20)
 					Input.options.push(val);

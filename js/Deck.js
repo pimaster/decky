@@ -61,7 +61,7 @@ Deck = {
 		UI.reset();
 		var sets = $(`#card_${pos} .sets`);
 		API.queryExact(Deck.cards[pos].name, function(cards){
-			cards = cards.sort((a,b) => a.setName > b.setName);
+			cards = cards.sort((a,b) => a.setName.localeCompare(b.setName));
 			for(card of cards){
 				sets.append(`
 					<a class="selectable" onclick="UI.changePos(${pos}, ${card.multiverseid}); return false;">
