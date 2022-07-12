@@ -16,7 +16,6 @@ Candy = {
 	},
 	tickleQuery: function(){
 		if(Candy.animate){
-			console.log("tickle")
 			var start = parseFloat(document.documentElement.style.getPropertyValue("--query-y-offset"));
 			var jump = .3;
 			if (start > -60)

@@ -32,7 +32,7 @@ Input = {
 		UI.reset();
 		$('#query').addClass('working');
 		API.query(value, function(data){
-			console.log(`Got ${data.cards.length} cards`);
+			//console.log(`Got ${data.cards.length} cards`);
 			dedup = {};
 			for(val of data.cards){
 				if(!dedup[val.name] // Are we missing

@@ -11,7 +11,7 @@ API = {
 		if(set) r += "&set=" + set;
 		return R.getJSON(r, function(data,status,req){
 			if(data.cards){
-				console.log("Trying to filter out lands");
+				//console.log("Trying to filter out lands");
 				//       Name  Set
 				// aLand false true
 				// !Land true irrelevant
@@ -77,9 +77,6 @@ API = {
 	// The exact card ID
 	fetch: function(id, fun){
 		if(Array.isArray(id)){
-			var q = "https://api.magicthegathering.io/v1/cards/?multiverseid=";
-			var toSearch = id.filter(function(val){ return API.cacheIds[val] == null; });
-			q += toSearch.join("|");
 			var toResult = function(){
 				r = []
 				for(var i = 0; i < id.length; i++){
@@ -87,15 +84,28 @@ API = {
 				}
 				return r;
 			}
+			var toSearch = id.filter(function(val){ return API.cacheIds[val] == null; });
 			if(toSearch.length > 0){
-				R.getJSON(q, function(data){
-					if(data.cards){
-						for(var i = 0; i < data.cards.length; i++){
-							API.cacheIds[data.cards[i].multiverseid] = data.cards[i]
+				var start = 0;
+				var jump = 10;
+				var fetchy = function() {
+					var q = "https://api.magicthegathering.io/v1/cards/?multiverseid=";
+					q += toSearch.slice(start, start + jump).join("|");
+					start += jump;
+					R.getJSON(q, function(data){
+						if(data.cards){
+							for(var i = 0; i < data.cards.length; i++){
+								API.cacheIds[data.cards[i].multiverseid] = data.cards[i]
+							}
 						}
-					}
-					fun(toResult());
-				});
+						if(start < toSearch.length){
+							fetchy();
+						}else{
+							fun(toResult());
+						}
+					});
+				};
+				fetchy();
 			}
 			else{
 				fun(toResult());
