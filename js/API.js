@@ -87,7 +87,7 @@ API = {
 			var toSearch = id.filter(function(val){ return API.cacheIds[val] == null; });
 			if(toSearch.length > 0){
 				var start = 0;
-				var jump = 10;
+				var jump = 30;
 				var fetchy = function() {
 					var q = "https://api.magicthegathering.io/v1/cards/?multiverseid=";
 					q += toSearch.slice(start, start + jump).join("|");
