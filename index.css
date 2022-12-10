@@ -79,6 +79,12 @@ a:hover{
 #deck .card.split:hover .display{
 	transform: scale(1.4) rotate(90deg);
 }
+#deck .card.flipped .display{
+	transform: rotate(180deg);
+}
+#deck .card.flipped:hover .display{
+	transform: scale(1.2) rotate(180deg);
+}
 #deck .card .set {
 	transform: none;
 }
@@ -104,7 +110,7 @@ a:hover{
 	bottom: 0;
 	border-bottom-right-radius: 8px;
 }
-.card .flip {
+.card .transform, .card .flip {
 	left: 0;
 	bottom: 0;
 	border-bottom-left-radius: 8px;

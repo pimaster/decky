@@ -77,7 +77,7 @@ UI = {
 		Deck.display();
 	},
 	
-	flipCard: function(pos){
+	transformCard: function(pos){
 		var current = Deck.cards[pos];
 		API.queryExact(current.name, current.set, function(data){
 				var toUse = data.filter(i => i.multiverseid != current.multiverseid);
@@ -85,6 +85,13 @@ UI = {
 					UI.changePos(pos, toUse[0].multiverseid);
 				}
 			});
+	},
+	flipCard: function(pos){
+		var el = document.getElementById(`card_${pos}`);
+		if(el.className.includes("flipped"))
+			el.className = el.className.replace("flipped", "");
+		else
+			el.className += " flipped";
 	},
 	
 	changePos: function(pos, newId){
