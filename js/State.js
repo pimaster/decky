@@ -41,7 +41,7 @@ State = {
 			}
 			if(state.v){
 				viewSelector.value = state.v;
-				viewSelector.oninput();
+				UI.viewChange(true);
 			}
 		}
 	},

@@ -77,6 +77,16 @@ UI = {
 		Deck.display();
 	},
 	
+	flipCard: function(pos){
+		var current = Deck.cards[pos];
+		API.queryExact(current.name, current.set, function(data){
+				var toUse = data.filter(i => i.multiverseid != current.multiverseid);
+				if(toUse.length > 0){
+					UI.changePos(pos, toUse[0].multiverseid);
+				}
+			});
+	},
+	
 	changePos: function(pos, newId){
 		Deck.resetOptions();
 		API.fetch(newId, function(data){
@@ -112,10 +122,11 @@ UI = {
 			$("body").addClass("custom")
 		}
 	},
-	viewChange: function(){
+	viewChange: function(skipSave){
 		$("#deck").removeClass();
 		$("#deck").addClass(viewSelector.value);
-		State.save();
+		if(!skipSave)
+			State.save();
 		return true;
 	},
 	reset: function(from){

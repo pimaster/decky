@@ -62,16 +62,16 @@ API = {
 							}
 						}
 				}
-				return fun(API.cacheNames[name]);
+				return fun(API.getCardBySet(name,set));
 			});
 		}
 	},
 	getCardBySet: function(name, set){
 		if(!set) return API.cacheNames[name];
-		if(API.cacheNames[name])
-			for(card of API.cacheNames[name]){
-				if(!set || card.set == set)
-					return card;
+		if(API.cacheNames[name]){
+			var matches = API.cacheNames[name].filter(i => i.set = set);
+			if(matches.length == 1) return matches[0];
+			return matches;
 		}
 		return null;
 	},

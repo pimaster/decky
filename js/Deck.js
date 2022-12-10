@@ -22,28 +22,35 @@ Deck = {
 			`);
 		}
 	},
-	display:function(){
+	display:function(skipSave){
 		var cardMap = {}
 		$('#deck').empty();
 		for(var i = 0; i < this.cards.length; i++){
 			var item = this.cards[i];
-			$('#deck').append(`
-				<div id="card_${i}" class="card" draggable="true" ondragstart="UI.dragStart(event, ${i})" ondrag="UI.drag(event)"
+			var templ = `
+				<div id="card_${i}" class="card ${item.layout}" draggable="true" ondragstart="UI.dragStart(event, ${i})" ondrag="UI.drag(event)"
 				ondrop="UI.drop(event,${i})" ondragenter="UI.dragEnter(event)" ondragleave="UI.dragLeave(event)" 
 				ondragover="UI.dragOver(event)" ondragend="UI.dragEnd(event)">
 					<div class="cardInner">
-						<a class="delete" title="Delete" onclick="UI.removePos(${i}); return false;"><span>X</span></a>
-						<a class="set" title="Change set" onclick="Deck.showSets(${i}); return false;"><span>@</span></a>
 						<div class="sets list"></div>
 						<span class="name">${item.name}</span>
-						<div class="container top">
-							<img src="${item.imageUrl}" />
-						</div>
-						<div class="container bot">
-							<img src="${item.imageUrl}" />
+						<div class="display">
+							<a class="action delete" title="Delete" onclick="UI.removePos(${i}); return false;"><span>X</span></a>
+							<a class="action set" title="Change set" onclick="Deck.showSets(${i}); return false;"><span>@</span></a>
+							${item.layout == 'transform' 
+								? `<a class="action flip" title="Flip" onclick="UI.flipCard(${i}); return false;"><span></span>%</a>` 
+								: ``
+							}
+							<div class="container top">
+								<img src="${item.imageUrl}" />
+							</div>
+							<div class="container bot">
+								<img src="${item.imageUrl}" />
+							</div>
 						</div>
 					</div>
-				</div>`);
+				</div>`;
+			$('#deck').append(templ);
 			var name = `${item.name} (${item.set})`;
 			if(cardMap[name])
 				cardMap[name]++;
@@ -55,11 +62,13 @@ Deck = {
 			s += `${cardMap[prop]}x ${prop}\n`;
 		}
 		$("#TextView").val(s)
-		State.save();
+		if(!skipSave)
+			State.save();
 	},
 	showSets: function(pos){
 		UI.reset();
 		var sets = $(`#card_${pos} .sets`);
+		sets[0].addEventListener('mouseleave', Deck.mouseLeftSet);
 		API.queryExact(Deck.cards[pos].name, function(cards){
 			cards = cards.sort((a,b) => a.setName.localeCompare(b.setName));
 			for(card of cards){
@@ -70,5 +79,8 @@ Deck = {
 					<img src="${card.imageUrl}" />`);
 			}
 		});
+	},
+	mouseLeftSet: function(event){
+		Deck.resetOptions();
 	}
 };

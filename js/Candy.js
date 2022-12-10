@@ -28,6 +28,14 @@ Candy = {
 			};
 			twiddle();
 		}
+	},
+	loading: function(isLoading){
+		console.log(`Turning loading ${isLoading ? 'on' : 'off'}`);
+		if(isLoading){
+			loader.className="loading";
+		}else{
+			loader.className="";
+		}
 	}
 }
 

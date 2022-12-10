@@ -65,42 +65,53 @@ a:hover{
 	display: inline-block;
 	position: relative;
 	margin: 2px 2px 0 0;
+}
+.card .display{
 	transition: transform .2s ease-in-out;
+	z-index: 2;
 }
 #deck .card:hover{
-	transform: scale(1.2);
 	z-index: 4;
+}
+#deck .card:hover .display{
+	transform: scale(1.2);
+}
+#deck .card.split:hover .display{
+	transform: scale(1.4) rotate(90deg);
+}
+#deck .card .set {
+	transform: none;
 }
 .cardInner {
 	position: relative;
 }
-.card .delete {
+.card .action {
 	position: absolute;
 	padding: 10px;
 	background: white;
 	opacity: .2;
-	right: 0;
 	display: none;
+}
+.card .action:hover {
+	opacity: 1;
+}
+.card .delete {
+	right: 0;
 	border-top-right-radius: 8px;
 }
-.card .delete:hover {
-	opacity: 1;
-}
 .card .set {
-	position: absolute;
-	padding: 10px;
-	background: white;
-	opacity: .2;
 	right: 0;
 	bottom: 0;
-	display: none;
 	border-bottom-right-radius: 8px;
 }
-.editable .delete, .editable .set {
-	display: block;
+.card .flip {
+	left: 0;
+	bottom: 0;
+	border-bottom-left-radius: 8px;
 }
-.card .set:hover {
-	opacity: 1;
+
+.editable .action {
+	display: block;
 }
 
 .card .sets {
