@@ -43,6 +43,8 @@ State = {
 				viewSelector.value = state.v;
 				UI.viewChange(true);
 			}
+			if(document.URL.startsWith("file://"))
+				setTimeout(function(){UI.toggleEditable(true)},10);
 		}
 	},
 	save: function(){
