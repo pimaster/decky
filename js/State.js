@@ -7,6 +7,7 @@ State = {
 			state = JSON.parse(decodeURIComponent(s));
 			
 			var idsToDeckFun = function(allIds){
+				Candy.loading(true);
 				var ids = Array.from(new Set(allIds));
 				API.fetch(ids, function(data){
 					for(var v of allIds)
@@ -16,6 +17,7 @@ State = {
 							Deck.cards.push(card);
 					}
 					Deck.display();
+					Candy.loading(false);
 				});
 			}
 			
@@ -64,6 +66,7 @@ State = {
 		window.location.hash = encodeURI(JSON.stringify(state));
 	},
 	loadText: function(){
+		Candy.loading(true);
 		Deck.cards = [];
 		var lines = [];
 		var input = $("#TextInput").val().split("\n")
@@ -113,43 +116,17 @@ State = {
 				}
 				
 				$("#TextInput").val(lines.join("\n"));
-				Deck.display();
 				if(decode.length > 0) {
+					Deck.display(true);
 					setTimeout(fetchLineF, cached ? 1 : 50);
+				}else{
+					Deck.display();
+					Candy.loading(false);
 				}
 			});
 			
 		}
 		fetchLineF();
-		/*
-					console.log(`Awaiting delay of ${delays}`);
-					setTimeout(function(name, set, count, orig){
-						todo.push(API.queryExact(name, set, function(data){
-							if(data && data.length >= 1){
-								while(count-- > 0)
-									Deck.cards.push(data[0])
-								lines.push(orig);
-							}else{
-								lines.push("// " + orig);
-							}
-							
-							$("#TextInput").val(lines.join("\n"));
-							Deck.display();
-						}));
-					}, delays, name, set, count, orig);
-		if(batchy){
-			API.queryExact(todo, function(){
-				for(item of decode){
-					var card = API.getCardBySet(item.name, item.set)
-					if(card)
-						for(var i = 0; i < item.count; i++)
-							Deck.cards.push(card);
-				}
-				Deck.display();
-				console.log("Displaying new deck");
-			});
-		}
-		*/
 		Candy.inputToggle(); // Close the side bars
 	}
 };
