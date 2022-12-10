@@ -41,10 +41,11 @@ API = {
 				return fun();
 			});
 		} else {
-			if(API.cacheNames[name]) return fun(API.getCardBySet(name,set));
-			if(!name.includes("'")) // We can only do exact searches on names WITHOUT a single ', API bug/quirk
-				name = `"${name}"`;
-			var r = `https://api.magicthegathering.io/v1/cards?contains=imageUrl&pageSize=100&name=${name}`;
+			if(API.cacheNames[name]) return fun(API.getCardBySet(name,set), true);
+			var nameSearch = name;
+			if(!nameSearch.includes("'")) // We can only do exact searches on names WITHOUT a single ', API bug/quirk
+				nameSearch = `"${nameSearch}"`;
+			var r = `https://api.magicthegathering.io/v1/cards?contains=imageUrl&pageSize=100&name=${nameSearch}`;
 			if(API.basics.includes(name)){
 				r += "&set=" + API.basicLandSets.join("|");
 			}
