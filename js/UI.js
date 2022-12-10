@@ -80,7 +80,7 @@ UI = {
 	transformCard: function(pos){
 		var current = Deck.cards[pos];
 		API.queryExact(current.name, current.set, function(data){
-				var toUse = data.filter(i => i.multiverseid != current.multiverseid);
+				var toUse = data.filter(i => i.multiverseid != current.multiverseid && i.number == current.number);
 				if(toUse.length > 0){
 					UI.changePos(pos, toUse[0].multiverseid);
 				}
