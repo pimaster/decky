@@ -64,14 +64,10 @@ State = {
 		window.location.hash = encodeURI(JSON.stringify(state));
 	},
 	loadText: function(){
-		var batchy = false;
 		Deck.cards = [];
-		var todoBatch = [];
-		var todo = [];
 		var lines = [];
 		var input = $("#TextInput").val().split("\n")
 		var decode = [];
-		var delays = 0;
 		for(var line of input){
 			var orig = line;
 			if(line.length > 0){
@@ -94,15 +90,40 @@ State = {
 					name = line.substring(0, line.length - (test.length + 1));
 				}
 				decode.push({
+					orig: orig,
 					count: count,
 					name: name,
 					set: set
 				});
-				todoBatch.push(line);
-				if(!batchy){
+			}
+		}
+		console.log("Iterated");
+		
+		var fetchLineF = function(){
+			var item = decode.shift();
+			console.log(`Looking for ${item.name} from ${item.set}`);
+			
+			API.queryExact(item.name, item.set, function(data, cached){
+				if(data && data.length >= 1){
+					while(item.count-- > 0)
+						Deck.cards.push(data[0])
+					lines.push(item.orig);
+				}else{
+					lines.push("// " + item.orig);
+				}
+				
+				$("#TextInput").val(lines.join("\n"));
+				Deck.display();
+				if(decode.length > 0) {
+					setTimeout(fetchLineF, cached ? 1 : 50);
+				}
+			});
+			
+		}
+		fetchLineF();
+		/*
 					console.log(`Awaiting delay of ${delays}`);
 					setTimeout(function(name, set, count, orig){
-						console.log(`Looking for ${name} from ${set}`);
 						todo.push(API.queryExact(name, set, function(data){
 							if(data && data.length >= 1){
 								while(count-- > 0)
@@ -116,11 +137,6 @@ State = {
 							Deck.display();
 						}));
 					}, delays, name, set, count, orig);
-					delays += 150;
-				}
-			}
-		}
-		console.log("Iterated");
 		if(batchy){
 			API.queryExact(todo, function(){
 				for(item of decode){
@@ -133,6 +149,7 @@ State = {
 				console.log("Displaying new deck");
 			});
 		}
+		*/
 		Candy.inputToggle(); // Close the side bars
 	}
 };
