@@ -37,7 +37,7 @@ Deck = {
 						<div class="display">
 							<a class="action delete" title="Delete" onclick="UI.removePos(${i}); return false;"><span>X</span></a>
 							<a class="action set" title="Change set" onclick="Deck.showSets(${i}); return false;"><span>@</span></a>
-							${item.layout == 'transform' 
+							${item.layout == 'transform' || item.layout == 'modal_dfc'
 								? `<a class="action transform" title="Transform" onclick="UI.transformCard(${i}); return false;"><span>%</span></a>` 
 								: ``
 							}
