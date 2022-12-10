@@ -42,7 +42,7 @@ Deck = {
 								: ``
 							}
 							${item.layout == 'flip'
-								? `<a class="action flip" title="Flip" onclick="UI.transformCard(${i}); return false;">!i<span></span></a>`
+								? `<a class="action flip" title="Flip" onclick="UI.flipCard(${i}); return false;">!i<span></span></a>`
 								: ``
 							}
 							<div class="container top">
