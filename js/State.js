@@ -74,19 +74,20 @@ State = {
 		var input = $("#TextInput").val().split("\n")
 		var decode = [];
 		for(var line of input){
+			line = line.trim();
 			var orig = line;
 			if(line.length > 0){
 				if(line.startsWith("//")) {
 					continue; // Ignore comments
 					lines.push(orig);
 				}
-				var parts = line.trim().split(" ");
+				var parts = line.split(" ");
 				var count = 1;
 				var set = "";
 				var test = parts[0].replaceAll("x", "");
 				if(parseInt(test)){
 					count = parseInt(test);
-					line = line.substr(parts[0].length + 1);
+					line = line.substr(parts[0].length + 1).trim();
 				}
 				var name = line.trim();
 				test = parts[parts.length - 1];
