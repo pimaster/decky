@@ -69,9 +69,7 @@ API = {
 	getCardBySet: function(name, set){
 		if(!set) return API.cacheNames[name];
 		if(API.cacheNames[name]){
-			var matches = API.cacheNames[name].filter(i => i.set = set);
-			if(matches.length == 1) return matches[0];
-			return matches;
+			return API.cacheNames[name].filter(i => i.set = set);
 		}
 		return null;
 	},
