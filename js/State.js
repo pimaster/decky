@@ -111,7 +111,7 @@ State = {
 			API.queryExact(item.name, item.set, function(data, cached){
 				if(data && data.length >= 1){
 					while(item.count-- > 0)
-						Deck.cards.push(data[0])
+						Deck.cards.push(data[0]);
 					lines.push(item.orig);
 				}else{
 					lines.push("// " + item.orig);
@@ -128,7 +128,10 @@ State = {
 			});
 			
 		}
-		fetchLineF();
+		if(decode.length > 0)
+			fetchLineF();
+		else
+			Candy.loading(false);
 		Candy.inputToggle(); // Close the side bars
 	}
 };
