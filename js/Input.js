@@ -31,7 +31,7 @@ Input = {
 		value.replace(' ', ',');
 		UI.reset();
 		$('#query').addClass('working');
-		API.query(value, function(data){
+		API.nameSearch(value, function(data){
 			//console.log(`Got ${data.cards.length} cards`);
 			dedup = {};
 			for(val of data.cards){
@@ -72,14 +72,25 @@ Input = {
 	},
 	select:function(pos){
 		pos = pos | Input.position;
-		for(var i = 0; i < Input.count; i++){
-			var item = Input.options[pos];
-			if(item)
-				Deck.cards.push(item);
+		var item = Input.options[pos];
+		if(item) {
+			var fun = function(card, total){
+				if(Array.isArray(card) && card.length > 0)
+					card = card[0]
+				for(var i = 0; i < total; i++){
+						Deck.cards.push(card);
+				}
+				UI.reset();
+				UI.toggleEditable(true);
+				Deck.display();
+			}
+			if(!!item.multiverseid)
+				fun(item, Input.count)
+			else
+				API.queryExact(item.name, function(data,status,req){
+					fun(data, Input.count)
+				})
 		}
-		UI.reset();
-		UI.toggleEditable(true);
-		Deck.display();
 		$('#query').val('');
 		this.reset();
 	}
