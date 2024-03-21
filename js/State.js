@@ -104,35 +104,30 @@ State = {
 			}
 		}
 		console.log("Iterated");
-		
-		var fetchLineF = function(){
-			var item = decode.shift();
-			console.log(`Looking for ${item.name} from ${item.set}`);
-			
-			API.queryExact(item.name, item.set, function(data, cached){
-				if(data && data.length >= 1){
+		var start = 0, jump = 75
+		var allNames = [], allSets = []
+		decode.forEach(e => {
+			allNames.push(e.name)
+			allSets.push(e.set)
+		})
+		API.queryExact(allNames, allSets, function(){
+			decode.forEach(item => {
+				console.log(`Looking for ${item.name} from ${item.set}`);
+				var card = API.getCardBySet(item.name,item.set)
+				if(Array.isArray(card) && card.length > 0)
+					card = card[0]
+				if(card){
 					while(item.count-- > 0)
-						Deck.cards.push(data[0]);
+						Deck.cards.push(card);
 					lines.push(item.orig);
 				}else{
 					lines.push("// " + item.orig);
 				}
-				
-				$("#TextInput").val(lines.join("\n"));
-				if(decode.length > 0) {
-					Deck.display(true);
-					setTimeout(fetchLineF, cached ? 1 : 50);
-				}else{
-					Deck.display();
-					Candy.loading(false);
-				}
-			});
-			
-		}
-		if(decode.length > 0)
-			fetchLineF();
-		else
+			})
+			$("#TextInput").val(lines.join("\n"));
+			Deck.display();
 			Candy.loading(false);
+		})
 		Candy.inputToggle(); // Close the side bars
 	}
 };

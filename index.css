@@ -69,6 +69,7 @@ a:hover{
 }
 .card .display{
 	transition: transform .2s ease-in-out;
+	transform-origin: 50% 0%;
 	z-index: 2;
 }
 #deck .card:hover{

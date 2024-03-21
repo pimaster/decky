@@ -39,14 +39,13 @@ API_scryfall = {
 		console.log({m:"Query Exact", n:aName, s:aSet})
 
 		var names = Array.isArray(aName) ? aName : [aName]
-		var sets = Array.isArray(aName) ? sets : [aSet]
+		var sets = Array.isArray(aName) ? aSet : [aSet]
 
 		var toSearch = []
-		for(var i = 0; i < names.length; i++){
-			if(API.cacheNames[names[i]] === undefined)
-				toSearch.push({name:names[i],set:sets[i]})
-		}
-		console.log(`Looking for ${names.join(" ")}`)
+		names.forEach((n,i) => {
+			if(API.cacheNames[n] === undefined || (!Array.isArray(aName) && !API.cacheNames[n].all))
+				toSearch.push({name:n,set:sets[i]})
+		})
 
 		var toResult = function(){
 			var results = []
@@ -66,7 +65,7 @@ API_scryfall = {
 							API.cacheNames[card.name] = []
 							API.cacheNames[card.name].all = true
 						}
-						API.cacheNames[card.name].push(card)
+						API.cacheAdd(card)
 					})
 					fun(toResult())
 				})
@@ -85,11 +84,8 @@ API_scryfall = {
 					R.postJSON("https://api.scryfall.com/cards/collection", postData, function(data, status, req){
 						console.log(`Found ${data.data.length}`)
 						var newdata = data.data.map(el => API_scryfall.fixCard(el))
-						newdata.forEach(card => {
-							if(API.cacheNames[card.name] == null)
-								API.cacheNames[card.name] = []
-							API.cacheNames[card.name].push(card)
-						})
+						newdata.forEach(card => API.cacheAdd(card))
+
 						if(start < toSearch.length)
 							setTimeout(fetchy, 100)
 						else
@@ -105,13 +101,13 @@ API_scryfall = {
 	},
 	// The exact card ID
 	fetch: function(id, fun){
-		requestIds = id
+		var requestIds = id
 		if(!Array.isArray(id))
 			requestIds = [id]
 
-		var toSearch = requestIds.filter(e => API.cacheIds[e] == null && e > 0)
+		var toSearch = requestIds.filter(e => API.cacheIds[e] === undefined && e > 0)
 		var toResult = function(){
-			var results = id.map(e => API.cacheIds[e])
+			var results = requestIds.map(e => API.cacheIds[e])
 			return Array.isArray(id) ? results : results[0]
 		}
 		if(toSearch.length > 0){
@@ -122,15 +118,14 @@ API_scryfall = {
 				console.log(`Fetching from ${start} to ${start+jump} of ${toSearch.length}`)
 				toSearch.slice(start,start+=jump).forEach(e => postData.identifiers.push({multiverse_id:e}))
 				R.postJSON("https://api.scryfall.com/cards/collection", postData, function(data, status, req){
-					var newdata = data.data.map(el => API_scryfall.fixCard(el))
-					newdata.forEach(card => {
-						if(card)
-							API.cacheIds[card.multiverseid] = card
-					})
-					if(start < toSearch.length)
-						setTimeout(fetchy, 100);
-					else
-						fun(toResult())
+					if(data.data){
+						var newdata = data.data.map(el => API_scryfall.fixCard(el))
+						newdata.forEach(card => API.cacheAdd(card))
+						if(start < toSearch.length)
+							setTimeout(fetchy, 100);
+						else
+							fun(toResult())
+					}
 
 				})	
 			}

@@ -5,7 +5,7 @@ API = {
 	// Search by name (and set)
 	nameSearch: function(name){
 		console.log("Name Search not implemented")
-	}
+	},
 	query: function(... args){
 		console.log("Query not implemented")
 		var name = args[0].trim();
@@ -23,7 +23,8 @@ API = {
 	getCardBySet: function(name, set){
 		if(!set) return API.cacheNames[name];
 		if(API.cacheNames[name]){
-			return API.cacheNames[name].filter(i => i.set = set);
+			var cards = API.cacheNames[name].filter(i => i.set = set);
+			return cards.length == 1 ? cards[0] : cards
 		}
 		return null;
 	},
@@ -32,5 +33,16 @@ API = {
 		console.log("Fetch not implemented")
 	},
 	cacheNames: {},
-	cacheIds: {}
+	cacheIds: {},
+	cacheAdd: function(card){
+		if(!card) return
+		this.cacheIds[card.multiverseid] = card
+		if(this.cacheNames[card.name] == null)
+			this.cacheNames[card.name] = []
+		this.cacheNames[card.name].push(card)
+	},
+	cacheClear: function(){
+		this.cacheIds = {}
+		this.cacheNames = {}
+	}
 };
