@@ -56,7 +56,11 @@ API_scryfall = {
 		}
 		if(toSearch.length > 0){
 			if(!Array.isArray(aName)){
-				var url = `https://api.scryfall.com/cards/search?q=!"${aName}"&unique=prints`
+				var extra = ""
+				if(API.basics.includes(aName))
+					extra = ` (` + API.basicLandSets.map(e => `e:${e}`).join(` or `) + `)`
+				var url = `https://api.scryfall.com/cards/search?q=!"${aName}"${extra}&unique=prints`
+
 				R.getJSON(url, function(data,status,req){
 					data.data.forEach(card => {
 						card = API_scryfall.fixCard(card)
