@@ -75,13 +75,13 @@ Deck = {
 		sets[0].addEventListener('mouseleave', Deck.mouseLeftSet);
 		API.queryExact(Deck.cards[pos].name, function(cards){
 			cards = cards.sort((a,b) => a.setName.localeCompare(b.setName));
-			for(card of cards){
+			cards.forEach((card,i) =>{
 				sets.append(`
 					<a class="selectable" onclick="UI.changePos(${pos}, ${card.multiverseid}); return false;">
 						<span>${card.setName}</span>
 					</a>
-					<img src="${card.imageUrl}" />`);
-			}
+					<img class="${i<8 ? "early":"late"}" src="${card.imageUrl}" />`);
+			})
 		});
 	},
 	mouseLeftSet: function(event){

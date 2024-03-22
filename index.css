@@ -47,7 +47,7 @@ a:hover{
 }
 
 #deck {
-	margin: 10px 40px 10px 40px;
+	margin: 10px 40px 220px 40px;
 }
 
 #deck a + img {
@@ -134,6 +134,16 @@ a:hover{
 	left: 50%;
 	top: 50%;
 	z-index: 10;
+	margin: 0px 0px 200px 0px;
+}
+.card .sets img {
+	margin: 0px 0px 200px 0px;
+}
+.card .sets img.early {
+	
+}
+.card .sets img.late {
+	transform: translate(0%, -110%);
 }
 .card.dropOnly {
 }

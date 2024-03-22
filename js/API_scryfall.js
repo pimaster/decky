@@ -58,7 +58,7 @@ API_scryfall = {
 			if(!Array.isArray(aName)){
 				var extra = ""
 				if(API.basics.includes(aName))
-					extra = ` (` + API.basicLandSets.map(e => `e:${e}`).join(` or `) + `)`
+					extra = ` (` + API.basicLandSets.map(e => `e:${e}`).join(` or `) + `) is:full`
 				var url = `https://api.scryfall.com/cards/search?q=!"${aName}"${extra}&unique=prints`
 
 				R.getJSON(url, function(data,status,req){

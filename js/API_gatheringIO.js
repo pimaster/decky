@@ -1,7 +1,5 @@
 
 API_gatheringIO = {
-	basics: ["Plains","Island","Swamp","Mountain","Forest"],
-	basicLandSets: ["THB","2XM","ZEN","UST"],
 	// Search by name (and set)
 	query: function(... args){
 		var name = args[0].trim();
@@ -46,8 +44,8 @@ API_gatheringIO = {
 			if(!nameSearch.includes("'")) // We can only do exact searches on names WITHOUT a single ', API bug/quirk
 				nameSearch = `"${nameSearch}"`;
 			var r = `https://api.magicthegathering.io/v1/cards?contains=imageUrl&pageSize=100&name=${nameSearch}`;
-			if(API_gatheringIO.basics.includes(name)){
-				r += "&set=" + API_gatheringIO.basicLandSets.join("|");
+			if(API.basics.includes(name)){
+				r += "&set=" + API.basicLandSets.join("|");
 			}
 			return R.getJSON(r, function(data){
 				if(data.cards && data.cards.length > 0){
