@@ -56,6 +56,12 @@
 					<input id="query" type="text"></input>
 				</form>
 				<div id="target" class="list"></div>
+				<script type="text/javascript">
+				if(window.location.hostname.indexOf("local") > 0)
+					var hash = `{"c2":"1CTd1XXN27rq25z70i47","v":"stacked"}`
+					document.write(`<a class="testCards" href="#${encodeURI(hash)}">Card Test</a>`)
+				</script>
+				
 			</div>
 			
 			<div id="deck" class="default"></div>

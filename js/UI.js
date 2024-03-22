@@ -79,12 +79,18 @@ UI = {
 	
 	transformCard: function(pos){
 		var current = Deck.cards[pos];
-		API.queryExact(current.name, current.set, function(data){
-				var toUse = data.filter(i => i.multiverseid != current.multiverseid && i.number == current.number);
-				if(toUse.length > 0){
-					UI.changePos(pos, toUse[0].multiverseid);
-				}
-			});
+		if(current.multiverse_ids){
+			var toUse = current.multiverse_ids.filter(e => e != current.multiverseid)
+			if(toUse.length > 0)
+				UI.changePos(pos, toUse[0])
+		}else{
+			API.queryExact(current.name, current.set, function(data){
+					var toUse = data.filter(i => i.multiverseid != current.multiverseid && i.number == current.number);
+					if(toUse.length > 0){
+						UI.changePos(pos, toUse[0].multiverseid);
+					}
+				});
+		}
 	},
 	flipCard: function(pos){
 		var el = document.getElementById(`card_${pos}`);

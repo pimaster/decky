@@ -135,9 +135,19 @@ API_scryfall = {
 		}
 	},
 	fixCard: function(card){
-		card = {...card}
 		if(card.multiverse_ids.length == 0) return null
-		card.multiverseid = card.multiverse_ids[0]
+		if(!card.multiverseid){
+			card = {...card}
+			card.multiverseid = card.multiverse_ids[0]
+			if(card.multiverse_ids.length > 1){
+				card.multiverse_ids.slice(1).forEach(id => {
+					var alt = {...card}
+					alt.multiverseid = id
+					alt = this.fixCard(alt)
+					API.cacheAdd(alt)
+				})
+			}
+		}
 		card.setName = card.set_name
 		card.imageUrl = `http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=${card.multiverseid}&type=card`
 		return card;

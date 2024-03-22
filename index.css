@@ -72,6 +72,16 @@ a:hover{
 	transform-origin: 50% 0%;
 	z-index: 2;
 }
+.card.split .display{
+	transform-origin: 50% 50%;
+}
+.card.flip .display{
+	transform-origin: top center;
+}
+.card.flipped .display{
+	transform: rotate(180deg);
+	transform-origin: center; center;
+}
 #deck .card:hover{
 	z-index: 4;
 }
@@ -81,11 +91,8 @@ a:hover{
 #deck .card.split:hover .display{
 	transform: scale(1.4) rotate(90deg);
 }
-#deck .card.flipped .display{
-	transform: rotate(180deg);
-}
 #deck .card.flipped:hover .display{
-	transform: scale(1.2) rotate(180deg);
+	transform: rotate(180deg) translate(0%, -10%) scale(1.2);
 }
 #deck .card .set {
 	transform: none;
@@ -279,7 +286,11 @@ a:hover{
 	right: 0px;
 	margin: 10px;
 }
-
+.testCards {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
 
 /* Mini View */
 .mini .card .container {
