@@ -71,24 +71,25 @@ Input = {
 
 	},
 	select:function(pos){
-		pos = pos | Input.position;
-		var item = Input.options[pos];
+		pos = pos | Input.position
+		var item = Input.options[pos]
+		var toAdd = Input.count
 		if(item) {
 			var fun = function(card, total){
 				if(Array.isArray(card) && card.length > 0)
 					card = card[0]
 				for(var i = 0; i < total; i++){
-						Deck.cards.push(card);
+						Deck.cards.push(card)
 				}
-				UI.reset();
-				UI.toggleEditable(true);
-				Deck.display();
+				UI.reset()
+				UI.toggleEditable(true)
+				Deck.display()
 			}
 			if(!!item.multiverseid)
-				fun(item, Input.count)
+				fun(item, toAdd)
 			else
 				API.queryExact(item.name, function(data,status,req){
-					fun(data, Input.count)
+					fun(data, toAdd)
 				})
 		}
 		$('#query').val('');
