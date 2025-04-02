@@ -78,8 +78,10 @@ Input = {
 			var fun = function(card, total){
 				if(Array.isArray(card) && card.length > 0)
 					card = card[0]
-				for(var i = 0; i < total; i++){
-						Deck.cards.push(card)
+				if(card){
+					for(var i = 0; i < total; i++){
+							Deck.cards.push(card)
+					}
 				}
 				UI.reset()
 				UI.toggleEditable(true)

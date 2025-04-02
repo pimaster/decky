@@ -45,6 +45,10 @@ Deck = {
 								? `<a class="action flip" title="Flip" onclick="UI.flipCard(${i}); return false;">!i<span></span></a>`
 								: ``
 							}
+							${item.xPrerelease
+								? `<div class="action prerelease" title="This card doesn't have a multiverse id yet\nIt can't be saved and reloaded from the URL">*</div>`
+								: ``
+							}
 							<div class="container top">
 								<img src="${item.imageUrl}" />
 							</div>

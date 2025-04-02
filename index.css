@@ -110,6 +110,10 @@ a:hover{
 .card .action:hover {
 	opacity: 1;
 }
+.card .prerelease {
+	opacity: .8;
+	border-top-left-radius: 8px;
+}
 .card .delete {
 	right: 0;
 	border-top-right-radius: 8px;

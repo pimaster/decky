@@ -48,7 +48,7 @@ State = {
 		}
 	},
 	save: function(){
-		var ids = Deck.cards.map(v => parseInt(v.multiverseid));
+		var ids = Deck.cards.filter(c=> !c.xPrerelease).map(v => parseInt(v.multiverseid));
 		ids = ids.map(v => ENC.enc(v).padStart(4,"0"));
 		var state = {
 			// c Was version 1 that was an array of ids

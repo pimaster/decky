@@ -126,7 +126,7 @@ API_scryfall = {
 						var newdata = data.data.map(el => API_scryfall.fixCard(el))
 						newdata.forEach(card => API.cacheAdd(card))
 						if(start < toSearch.length)
-							setTimeout(fetchy, 100);
+							setTimeout(fetchy, 250);
 						else
 							fun(toResult())
 					}
@@ -139,21 +139,26 @@ API_scryfall = {
 		}
 	},
 	fixCard: function(card){
-		if(card.multiverse_ids.length == 0) return null
-		if(!card.multiverseid){
-			card = {...card}
-			card.multiverseid = card.multiverse_ids[0]
-			if(card.multiverse_ids.length > 1){
-				card.multiverse_ids.slice(1).forEach(id => {
-					var alt = {...card}
-					alt.multiverseid = id
-					alt = this.fixCard(alt)
-					API.cacheAdd(alt)
-				})
+		if(card.multiverse_ids.length == 0) {
+			card.xPrerelease = true // Hack to show cards until they get multiverse id
+			card.multiverseid = card.id
+			card.imageUrl = card.image_uris.small
+		}else{
+			if(!card.multiverseid){
+				card = {...card}
+				card.multiverseid = card.multiverse_ids[0]
+				if(card.multiverse_ids.length > 1){
+					card.multiverse_ids.slice(1).forEach(id => {
+						var alt = {...card}
+						alt.multiverseid = id
+						alt = this.fixCard(alt)
+						API.cacheAdd(alt)
+					})
+				}
 			}
+			card.imageUrl = `https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=${card.multiverseid}&type=card`
 		}
 		card.setName = card.set_name
-		card.imageUrl = `http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=${card.multiverseid}&type=card`
 		return card;
 	},
 
