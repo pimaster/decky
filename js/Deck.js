@@ -1,6 +1,10 @@
 
 Deck = {
 	cards:[],
+	addCard: function(card){
+		if(!card) return
+		Deck.cards.push(card)
+	},
 	resetOptions: function(){
 		$(".sets").empty();
 	},

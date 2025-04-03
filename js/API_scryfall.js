@@ -142,11 +142,23 @@ API_scryfall = {
 		if(card.multiverse_ids.length == 0) {
 			card.xPrerelease = true // Hack to show cards until they get multiverse id
 			card.multiverseid = card.id
-			card.imageUrl = card.image_uris.small
+			if(card.image_uris) {
+				card.imageUrl = card.image_uris.normal
+			}else if(card.card_faces && card.card_faces.length>0){
+				card.imageUrl = card.card_faces[0].image_uris.normal
+			}else{
+				console.log(`Card ${card.id} dropped due to having no image_uris`)
+				return null // What sort of entry is this?!
+			}
 		}else{
 			if(!card.multiverseid){
 				card = {...card}
 				card.multiverseid = card.multiverse_ids[0]
+				{
+					// Apparently we stopped getting the 2nd multiverse id for dual face cards. Assume it is the next id?
+					// https://scryfall.com/blog/api-recent-double-sided-card-and-image-updates-133
+					if(card.card_faces && card.card_faces.length > card.multiverse_ids.length) card.multiverse_ids.push(card.multiverse_ids[0]+1)
+				}
 				if(card.multiverse_ids.length > 1){
 					card.multiverse_ids.slice(1).forEach(id => {
 						var alt = {...card}

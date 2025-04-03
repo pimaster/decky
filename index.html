@@ -57,9 +57,12 @@
 				</form>
 				<div id="target" class="list"></div>
 				<script type="text/javascript">
-				if(window.location.hostname.indexOf("local") > 0){
-					var hash = `{"c2":"1CTd1XXN27rq25z70i47","v":"stacked"}`
-					document.write(`<a class="testCards" href="#${encodeURI(hash)}">Card Test</a>`)
+				if(window.location.hostname.indexOf("localhost") > 0 || window.location.href.startsWith("file")){
+					var hash = `{"c2":"1CTd1XXN27rq25z70i472pub","v":"stacked"}`
+					document.write(`<div class="testCards">`)
+					document.write(`<a href="#${encodeURI(hash)}" onclick="setTimeout(State.load,100)">Card Test</a>`)
+					document.write(`<a href="#" onclick="setTimeout(State.load,100)">Reset</a>`)
+					document.write(`</div>`)
 				}
 				</script>
 				

@@ -1,6 +1,7 @@
 
 State = {
 	load: function(){
+		Deck.cards=[]
 		s = window.location.hash.substring(1);
 		console.log("Loading state: " + s);
 		if(s.length > 0){
@@ -9,6 +10,7 @@ State = {
 			var idsToDeckFun = function(allIds){
 				Candy.loading(true);
 				var ids = Array.from(new Set(allIds));
+				//console.log(`Loading ids ${ids.join(',')}`)
 				API.fetch(ids, function(data){
 					for(var v of allIds)
 					{
@@ -45,6 +47,8 @@ State = {
 			}
 			if(document.URL.startsWith("file://"))
 				setTimeout(function(){UI.toggleEditable(true)},10);
+		}else{
+			Deck.display();
 		}
 	},
 	save: function(){
@@ -118,7 +122,7 @@ State = {
 					card = card[0]
 				if(card){
 					while(item.count-- > 0)
-						Deck.cards.push(card);
+						Deck.addCard(card);
 					lines.push(item.orig);
 				}else{
 					lines.push("// " + item.orig);

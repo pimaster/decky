@@ -80,7 +80,7 @@ Input = {
 					card = card[0]
 				if(card){
 					for(var i = 0; i < total; i++){
-							Deck.cards.push(card)
+							Deck.addCard(card)
 					}
 				}
 				UI.reset()
