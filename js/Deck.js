@@ -85,7 +85,7 @@ Deck = {
 			cards = cards.sort((a,b) => a.setName.localeCompare(b.setName));
 			cards.forEach((card,i) =>{
 				sets.append(`
-					<a class="selectable" onclick="UI.changePos(${pos}, ${card.multiverseid}); return false;">
+					<a class="selectable" onclick="UI.changePos(${pos}, '${card.multiverseid}'); return false;">
 						<span>${card.setName}</span>
 					</a>
 					<img class="${i<8 ? "early":"late"}" src="${card.imageUrl}" />`);
