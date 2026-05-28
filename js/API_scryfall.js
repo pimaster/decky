@@ -80,6 +80,10 @@ API_scryfall = {
 				var fetchy = function(){
 					var postData = {identifiers:[]}
 					toSearch.slice(start, start+=jump).forEach(e => {
+						var splitCard = e.name.indexOf(" //");
+						if(splitCard > 0){
+							e.name = e.name.substring(0,splitCard);
+						}
 						var obj = {name:e.name}
 						if(!!e.set)
 							obj.set = e.set
