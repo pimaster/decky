@@ -36,7 +36,7 @@ API = {
 	cacheIds: {},
 	cacheAdd: function(card){
 		if(!card) return
-		this.cacheIds[card.multiverseid] = card
+		this.cacheIds[`${card.set}.${card.collector_number}`] = card
 		if(this.cacheNames[card.name] == null)
 			this.cacheNames[card.name] = []
 		this.cacheNames[card.name].push(card)

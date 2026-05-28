@@ -34,6 +34,15 @@ State = {
 					ids.push(ENC.dec(state.c2.slice(s,s+=4)));
 				idsToDeckFun(ids);
 			}
+			if(state.c3){
+				input = state.c3.match(/[a-zA-Z]+|\d+/g)
+				ids = [];
+				for(var i = 0; i < input.length; i+=2){
+					ids.push(`${ENC.setCodeDec(input[i])}.${input[i+1]}`);
+				}
+				idsToDeckFun(ids);
+                      
+			}
 			if(state.cbg){
 				backgroundURL.value = state.cbg.u;
 				backgroundScale.value = state.cbg.s;
@@ -52,13 +61,14 @@ State = {
 		}
 	},
 	save: function(){
-		var ids = Deck.cards.filter(c=> !c.xPrerelease).map(v => parseInt(v.multiverseid));
-		ids = ids.map(v => ENC.enc(v).padStart(4,"0"));
+		var ids = Deck.cards.map(v => ENC.setCodeEnc(v.set) + v.collector_number);
 		var state = {
 			// c Was version 1 that was an array of ids
 			// c: ids
 			// c2 is version 2 that is 4 char that is base 66
-			c2: ids.join(""),
+			//c2: ids.join(""),
+			// c3 is set code text with numbers converted to uppcase with the collector number following. Multiverse ID went away 2026 or earlier.
+			c3: ids.join(""),
 			v: viewSelector.value
 		};
 		if(backgroundURL.value.length > 0){

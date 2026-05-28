@@ -104,12 +104,13 @@ API_scryfall = {
 		}
 	},
 	// The exact card ID
+	// Used to be multiverse id, moving to "setcode.collector" number
 	fetch: function(id, fun){
 		var requestIds = id
 		if(!Array.isArray(id))
 			requestIds = [id]
 
-		var toSearch = requestIds.filter(e => API.cacheIds[e] === undefined && e > 0)
+		var toSearch = requestIds.filter(e => API.cacheIds[e] === undefined && e > 0 || (typeof e === "string" && e.indexOf(".") > 0))
 		var toResult = function(){
 			var results = requestIds.map(e => API.cacheIds[e])
 			return Array.isArray(id) ? results : results[0]
@@ -120,7 +121,15 @@ API_scryfall = {
 			var fetchy = function(){
 				var postData = {identifiers:[]}
 				console.log(`Fetching from ${start} to ${start+jump} of ${toSearch.length}`)
-				toSearch.slice(start,start+=jump).forEach(e => postData.identifiers.push({multiverse_id:e}))
+				toSearch.slice(start,start+=jump).forEach(e => {
+					if(typeof e === "string" && e.indexOf(".") >= 0){
+						split = e.split(".");
+						postData.identifiers.push({set:split[0],collector_number:split[1]});
+					}
+					else{
+						postData.identifiers.push({multiverse_id:e})
+					}
+				});
 				R.postJSON("https://api.scryfall.com/cards/collection", postData, function(data, status, req){
 					if(data.data){
 						var newdata = data.data.map(el => API_scryfall.fixCard(el))
@@ -140,7 +149,6 @@ API_scryfall = {
 	},
 	fixCard: function(card){
 		if(card.multiverse_ids.length == 0) {
-			card.xPrerelease = true // Hack to show cards until they get multiverse id
 			card.multiverseid = card.id
 			if(card.image_uris) {
 				card.imageUrl = card.image_uris.normal
@@ -157,8 +165,9 @@ API_scryfall = {
 				{
 					// Apparently we stopped getting the 2nd multiverse id for dual face cards. Assume it is the next id?
 					// https://scryfall.com/blog/api-recent-double-sided-card-and-image-updates-133
-					if(card.card_faces && card.card_faces.length > card.multiverse_ids.length) card.multiverse_ids.push(card.multiverse_ids[0]+1)
+					//if(card.card_faces && card.card_faces.length > card.multiverse_ids.length) card.multiverse_ids.push(card.multiverse_ids[0]+1)
 				}
+				/*
 				if(card.multiverse_ids.length > 1){
 					card.multiverse_ids.slice(1).forEach(id => {
 						var alt = {...card}
@@ -167,10 +176,22 @@ API_scryfall = {
 						API.cacheAdd(alt)
 					})
 				}
+				*/
 			}
-			card.imageUrl = `https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=${card.multiverseid}&type=card`
 		}
-		card.setName = card.set_name
+		try{
+			card.setName = card.set_name
+			if(card.image_uris){
+				card.imageUrl = card.image_uris.normal;
+			}
+			if(card.card_faces && card.card_faces[0].image_uris){
+				card.imageUrl = card.card_faces[0].image_uris.normal;
+			}
+		}
+		catch(err){
+			console.log(`Didn't like ${card.name} because ${err}`)
+			console.log(card)
+		}
 		return card;
 	},
 

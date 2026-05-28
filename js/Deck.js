@@ -17,10 +17,10 @@ Deck = {
 				ondrop="UI.drop(event,${Deck.cards.length})" ondragenter="UI.dragEnter(event)" ondragleave="UI.dragLeave(event)" 
 				ondragover="UI.dragOver(event)" ondragend="UI.dragEnd(event)">
 					<div class="container top">
-						<img src="https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=133359&type=card" />
+						<img src="https://gatherer.wizards.com/assets/card_back.webp" />
 					</div>
 					<div class="container bot">
-						<img src="https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=133359&type=card" />
+						<img src="https://gatherer.wizards.com/assets/card_back.webp" />
 					</div>
 				</div>
 			`);
@@ -82,10 +82,11 @@ Deck = {
 		var sets = $(`#card_${pos} .sets`);
 		sets[0].addEventListener('mouseleave', Deck.mouseLeftSet);
 		API.queryExact(Deck.cards[pos].name, function(cards){
+			cards = [...new Map(cards.map(c => [`${c.set}.${c.collector_number}`, c])).values()]; // Hack to only show single face?
 			cards = cards.sort((a,b) => a.setName.localeCompare(b.setName));
 			cards.forEach((card,i) =>{
 				sets.append(`
-					<a class="selectable" onclick="UI.changePos(${pos}, '${card.multiverseid}'); return false;">
+					<a class="selectable" onclick="UI.changePos(${pos}, '${card.set}.${card.collector_number}'); return false;">
 						<span>${card.setName}</span>
 					</a>
 					<img class="${i<8 ? "early":"late"}" src="${card.imageUrl}" />`);

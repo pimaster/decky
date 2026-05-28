@@ -17,6 +17,21 @@ ENC = {
 			m *= this.len;
 		}
 		return r;
+	},
+	setCodeEnc: function(s){
+		s = s.toLowerCase();
+		s = s.replace(/\d/g, (char) => {
+			var c = char.charCodeAt(0);
+			return String.fromCharCode(c + 17);
+		});
+		return s;
+	},
+	setCodeDec: function(s){
+		s = s.replace(/[A-Z]/g, (char) => {
+			var c = char.charCodeAt(0);
+			return String.fromCharCode(c-17);
+		});
+		return s;
 	}
 }
 ENC.len = ENC.dat.length;
