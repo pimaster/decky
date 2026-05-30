@@ -14,7 +14,7 @@ State = {
 				API.fetch(ids, function(data){
 					for(var v of allIds)
 					{
-						card = API.cacheIds[v];
+						card = API.cacheGet(v);
 						if(card)
 							Deck.cards.push(card);
 					}

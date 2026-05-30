@@ -41,6 +41,19 @@ API = {
 			this.cacheNames[card.name] = []
 		this.cacheNames[card.name].push(card)
 	},
+	cacheGet: function(id){
+		// Was multiverse id.
+		// Moved to set.collector_number
+		if(typeof id === "string" && id.indexOf(".") > 0){
+			return API.cacheIds[id];
+		}
+		card = Object.values(API.cacheIds).find(card => card.multiverseid === id)
+		if(card != null){
+			return card;
+		}
+		console.error(`Tried to find ${id} but failed to find`);
+
+	},
 	cacheClear: function(){
 		this.cacheIds = {}
 		this.cacheNames = {}
